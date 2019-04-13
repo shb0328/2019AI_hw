@@ -39,7 +39,6 @@ for i in range(48, 51):
 			if(city is not None):
 				cityNames.append((str(city))[0])
 
-# print(cityNames)
 
 # 도시부터 B까지 직선거리 list로 추출
 straights = []
@@ -50,8 +49,6 @@ for i in range(48, 51):
 			straight = s_sheet["B"+chr(i)+chr(j)].value
 			if(straight is not None):
 				straights.append(straight)
-
-# print(straights)
 
 # {도시 : 직선거리, ... ,{}} dict로 만들기
 citys = {}
@@ -79,13 +76,11 @@ for i in range(48, 51):
 			city = d_sheet["A"+chr(i)+chr(j)].value
 			if(city is not None):
 				cityNames.append((str(city))[0])
-# print(cityNames)
 
 # {key(출발 도시) : value{'도착도시':거리,...},...,{} } A->B
 nodes1 = {}
 for name in cityNames:
 	nodes1[name] = {}
-# print(nodes1)
 
 for i in range(48, 51):
  for j in range(48, 58):
@@ -95,13 +90,9 @@ for i in range(48, 51):
    Akey = (str(A))[0]
    Bkey = (str(B))[0]
    distance = d_sheet["C"+chr(i)+chr(j)].value
-   # print(Akey)
-   # print(Bkey)
-   # print(distance)
    if(A is not None):
     nodes1[Akey][Bkey] = distance # A->B
 
-# print(nodes1)
 
 
 # B 열의 도시를 출발 key로.
@@ -113,13 +104,11 @@ for i in range(48, 51):
 			city = d_sheet["B"+chr(i)+chr(j)].value
 			if(city is not None):
 				cityNames.append((str(city))[0])
-# print(cityNames)
 
 # {key(출발 도시) : value{'도착도시':거리,...},...,{} } B->A
 nodes2 = {}
 for name in cityNames:
 	nodes2[name] = {}
-# print(nodes2)
 
 for i in range(48, 51):
  for j in range(48, 58):
@@ -129,13 +118,9 @@ for i in range(48, 51):
    Akey = (str(A))[0]
    Bkey = (str(B))[0]
    distance = d_sheet["C"+chr(i)+chr(j)].value
-   # print(Akey)
-   # print(Bkey)
-   # print(distance)
    if(Akey is not None):
     nodes2[Bkey][Akey] = distance # B->A
 
-# print(nodes2)
 
 # d_sheet A->B 랑 B->A 합치기(최종)
 nodes = {}
@@ -148,8 +133,6 @@ for name1 in nodes1.keys():
             nodes[name2] = nodes2[name2]
 
 nodes.update(nodes1)
-# print("\n************************\nnodes = ")
-# pprint(nodes)
 
 """
 알파벳 순서로 정렬된 자식 list를
@@ -209,11 +192,7 @@ class Node:
     def __init__(self, data, path=[], cost=0):
         self.data = data
         self.path = path.copy()
-        # print("node init ... path:",path)
-        # print("node init ... self.path:",self.path)
         self.path.append(data)
-        # print("node init ... after append, path:",path)
-        # print("node init ... after append, self.path:",self.path)
         self.cost = cost
 
     def showPath(self):
@@ -223,11 +202,7 @@ class Node:
         return self.data == data
 
     def __str__(self):
-        # return "data : "+self.data+", path : "+self.path.__str__()
         return self.data
-
-
-
 
 
 # BFS 는 right most!
@@ -240,33 +215,27 @@ close = Queue()
 
 startNode = Node(start)
 open.enqueue(startNode)
-# open.show()
 
-print("\n\n***** While start *****\n\n")
 while open.isEmpty() == False:
     node = open.dequeue()
-    # print("while start, node : ",node)
-    # node.showPath()
     
     # Check : Goal 인지 검사
     if node.equal(end):
-        print("\n***** result *****\n*Path : ",end = " ")
+        print("\n***** Result *****\n* Path : ",end = " ")
         node.showPath()
-        print("*cost : ",node.cost)
-        print("*number of generated nodes : ",end = " ")
+        print("* cost : ",node.cost)
+        print("* number of generated nodes : ",end = " ")
         print(close.size())
         open.clear()
     else:
         close.enqueue(node)
         children = nodes[node.data] #dict
-        # print("children : ",children)
         for i in range(0,len(children['child'])):
             key = children['child'][i]
-            # print("key : ",key)
+
             # Check : 왔던 경로에 key가 있었는지 검사
             if key not in node.path:
               cost = node.cost
               cost += children[key]
-              # print("before newNode, node.path : ", node.path)
               newNode = Node(key,node.path,cost)
               open.enqueue(newNode)
