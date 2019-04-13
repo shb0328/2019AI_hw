@@ -152,9 +152,9 @@ print("\n************************\nnodes = ")
 pprint(nodes)
 
 """
-알파벳 순서로 정렬된 자식 list를 
+알파벳 순서로 정렬된 자식 list를
 {key(출발 도시) : value{'도착도시':거리,...,'child':[]},...,{} }
-<- 'child':[]로 추가 
+<- 'child':[]로 추가
 """
 
 for name in nodes.keys():
@@ -168,9 +168,102 @@ pprint(nodes)
 
 """
 
-Search
+BFS
 
 """
+print("\n\n BFS \n\n")
 
+class Queue:
+
+    def __init__(self):
+        self.myList = list()
+
+    def enqueue(self, node):
+        self.myList.append(node)
+
+    def dequeue(self):
+        if self.isEmpty():
+            return None
+        return self.myList.pop(0)
+   
+    def isEmpty(self):
+        if not self.myList:
+            return True
+        return False
+
+    def size(self):
+        return len(self.myList)
+
+    def clear(self):
+        self.myList.clear()
+
+    def show(self):
+        for i in range(0,len(self.myList)):
+            print("[",i,"]",self.myList[i])
+
+    
+class Node:
+
+    def __init__(self, data, path=[], cost=0):
+        self.data = data
+        self.path = path.copy()
+        print("node init ... path:",path)
+        print("node init ... self.path:",self.path)
+        self.path.append(data)
+        print("node init ... after append, path:",path)
+        print("node init ... after append, self.path:",self.path)
+        self.cost = cost
+
+    def showPath(self):
+        print(self.path)
+
+    def equal(self, data):
+        return self.data == data
+
+    def __str__(self):
+        # return "data : "+self.data+", path : "+self.path.__str__()
+        return self.data
+
+
+
+
+
+# right most
 start = 'T'
+end = 'B'
 
+startNode = Node(start)
+
+open = Queue()
+close = Queue()
+
+open.enqueue(startNode)
+open.show()
+
+print("\n\nWhile start\n\n")
+while open.isEmpty() == False:
+    node = open.dequeue()
+    print("while start, node : ",node)
+    node.showPath()
+    
+    if node.equal(end):
+        print("end!\nPath : ",end = " ")
+        node.showPath()
+        print("cost : ",node.cost)
+        print("number of generated nodes : ",end = " ")
+        print(close.size())
+        open.clear()
+    else:
+        close.enqueue(node)
+        children = nodes[node.data] #dict
+        print("children : ",children)
+        for i in range(0,len(children['child'])):
+            key = children['child'][i]
+            print("key : ",key)
+            cost = node.cost
+            cost += children[key]
+            print("before newNode, node.path : ", node.path)
+            newNode = Node(key,node.path,cost)
+            open.enqueue(newNode)
+
+        # open.enqueue()
