@@ -148,3 +148,101 @@ print("\n************************\n\nnodes with sorted child list = \n")
 pprint(nodes)
 
 # ================================================#
+
+"""
+
+DFS
+
+"""
+
+print("\n\n***** DFS *****\n\n")
+
+class Stack:
+
+  def __init__(self):
+    self.nodeList = list()
+    self.dataList = list()
+
+  def push(self, node):
+    self.nodeList.insert(0,node)
+    self.dataList.insert(0,node.data)
+
+  def pop(self):
+    if self.isEmpty():
+        return None
+    return self.nodeList.pop(0)
+
+  def isEmpty(self):
+    if not self.nodeList:
+        return True
+    return False
+
+  def size(self):
+    return len(self.nodeList)
+
+  def clear(self):
+    self.nodeList.clear()
+
+  def show(self):
+    print("[",end="")
+    for i in range(0,len(self.nodeList)):
+        print(self.nodeList[i],end = " ")
+    print("]")
+
+# Node Class는 도시이름(data), 출발점부터 경로(path), 출발점부터 비용(cost)를 갖고 있다.
+class Node:
+
+  def __init__(self, data, path=[], cost=0):
+    self.data = data
+    self.path = path.copy()
+    self.path.append(data)
+    self.cost = cost
+
+  def showPath(self):
+    print(self.path)
+
+  def equal(self, data):
+    return self.data == data
+
+  def __str__(self):
+    return self.data
+
+
+# DFS 는 left most!
+
+start = 'T'
+end = 'B'
+
+open = Stack()
+close = Stack()
+
+startNode = Node(start)
+while open.isEmpty() is False:
+  print("open", end="")
+  open.show()
+  print("close", end="")
+  close.show()
+  node = open.pop()
+    
+    # Check : Goal 인지 검사
+  if node.equal(end):
+    print("\n***** Result *****\n\n* Path : ",end = " ")
+    node.showPath()
+    print("* cost : ",node.cost)
+    print("* number of generated nodes : ",end = " ")
+    print(close.size())
+    close.enqueue(node)
+    print("\n******************\n\n")
+    # open.clear()
+  else:
+    close.enqueue(node)
+    children = nodes[node.data] # dict
+    for i in range(0, len(children['child'])):
+        key = children['child'][i]
+
+        # Check : 왔던 경로에 key가 있었는지 검사
+        if (key not in node.path):
+          cost = node.cost
+          cost += children[key]
+          newNode = Node(key, node.path, cost)
+          open.enqueue(newNode)
