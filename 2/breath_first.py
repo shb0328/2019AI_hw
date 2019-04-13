@@ -185,9 +185,9 @@ class Queue:
         self.nodeList.clear()
 
     def show(self):
-        print("[",end="")
-        for i in range(0,len(self.nodeList)):
-            print(self.nodeList[i],end = " ")
+        print("[", end="")
+        for i in range(0, len(self.nodeList)):
+            print(self.nodeList[i], end = " ")
         print("]")
 
 # Node Class는 도시이름(data), 출발점부터 경로(path), 출발점부터 비용(cost)를 갖고 있다.
@@ -227,7 +227,7 @@ while open.isEmpty() is False:
   close.show()
   node = open.dequeue()
     
-    # Check : Goal 인지 검사
+    # Check : Goal 검사
   if node.equal(end):
     print("\n***** Result *****\n\n* Path : ", end = " ")
     node.showPath()
