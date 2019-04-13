@@ -260,10 +260,12 @@ while open.isEmpty() == False:
         for i in range(0,len(children['child'])):
             key = children['child'][i]
             print("key : ",key)
-            cost = node.cost
-            cost += children[key]
-            print("before newNode, node.path : ", node.path)
-            newNode = Node(key,node.path,cost)
-            open.enqueue(newNode)
+            #왔던 경로에 key가 있었는지 검사!!
+            if key not in node.path:
+              cost = node.cost
+              cost += children[key]
+              print("before newNode, node.path : ", node.path)
+              newNode = Node(key,node.path,cost)
+              open.enqueue(newNode)
 
         # open.enqueue()
