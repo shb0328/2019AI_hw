@@ -220,7 +220,7 @@ close = Queue()
 startNode = Node(start)
 open.enqueue(startNode)
 
-while open.isEmpty() == False:
+while open.isEmpty() is False:
   print("open",end="")
   open.show();
   node = open.dequeue()
