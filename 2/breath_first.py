@@ -243,8 +243,8 @@ while open.isEmpty() is False:
     for i in range(0,len(children['child'])):
         key = children['child'][i]
 
-        # Check loop : 왔던 경로에 key가 있었는지 검사 and open/close list 안에 key가 이미 존재하는지 검사
-        if (key not in node.path) and (key not in close.dataList):
+        # Check : 왔던 경로에 key가 있었는지 검사
+        if (key not in node.path):
           cost = node.cost
           cost += children[key]
           newNode = Node(key,node.path,cost)
