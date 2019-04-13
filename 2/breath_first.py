@@ -37,7 +37,7 @@ for i in range(48, 51):
 		if (i != 48 or j != 48):
 			city = s_sheet["A"+chr(i)+chr(j)].value
 			if(city is not None):
-				cityNames.append(city)
+				cityNames.append((str(city))[0])
 
 print(cityNames)
 
@@ -57,7 +57,7 @@ print(straights)
 citys = {}
 
 for i in range(0, len(cityNames)):
-	citys[str(cityNames[i])] = int(straights[i])
+	citys[cityNames[i]] = int(straights[i])
 
 print("\n************************\ncitys = ")
 pprint(citys)
@@ -78,7 +78,7 @@ for i in range(48, 51):
 		if (i != 48 or j != 48):
 			city = d_sheet["A"+chr(i)+chr(j)].value
 			if(city is not None):
-				cityNames.append(city)
+				cityNames.append((str(city))[0])
 print(cityNames)
 
 # {key(출발 도시) : value{'도착도시':거리,...},...,{} } A->B
@@ -88,16 +88,18 @@ for name in cityNames:
 print(nodes1)
 
 for i in range(48, 51):
-	for j in range(48, 58):
-		if (i != 48 or j != 48):
-			Akey = d_sheet["A"+chr(i)+chr(j)].value
-			Bkey = d_sheet["B"+chr(i)+chr(j)].value
-			distance = d_sheet["C"+chr(i)+chr(j)].value
-			# print(Akey)
-			# print(Bkey)
-			# print(distance)
-			if(Akey is not None):
-				nodes1[Akey][Bkey] = distance # A->B
+ for j in range(48, 58):
+  if (i != 48 or j != 48):
+   A = d_sheet["A"+chr(i)+chr(j)].value
+   B = d_sheet["B"+chr(i)+chr(j)].value
+   Akey = (str(A))[0]
+   Bkey = (str(B))[0]
+   distance = d_sheet["C"+chr(i)+chr(j)].value
+   # print(Akey)
+   # print(Bkey)
+   # print(distance)
+   if(A is not None):
+    nodes1[Akey][Bkey] = distance # A->B
 
 print(nodes1)
 
@@ -108,9 +110,9 @@ cityNames.clear()
 for i in range(48, 51):
 	for j in range(48, 58):
 		if (i != 48 or j != 48):
-			city = d_sheet["B"+chr(i)+chr(j)].value 
+			city = d_sheet["B"+chr(i)+chr(j)].value
 			if(city is not None):
-				cityNames.append(city)
+				cityNames.append((str(city))[0])
 print(cityNames)
 
 # {key(출발 도시) : value{'도착도시':거리,...},...,{} } B->A
@@ -120,16 +122,18 @@ for name in cityNames:
 print(nodes2)
 
 for i in range(48, 51):
-	for j in range(48, 58):
-		if (i != 48 or j != 48):
-			Akey = d_sheet["A"+chr(i)+chr(j)].value
-			Bkey = d_sheet["B"+chr(i)+chr(j)].value
-			distance = d_sheet["C"+chr(i)+chr(j)].value
-			# print(Akey)
-			# print(Bkey)
-			# print(distance)
-			if(Akey is not None):
-				nodes2[Bkey][Akey] = distance # B->A
+ for j in range(48, 58):
+  if (i != 48 or j != 48):
+   A = d_sheet["A"+chr(i)+chr(j)].value
+   B = d_sheet["B"+chr(i)+chr(j)].value
+   Akey = (str(A))[0]
+   Bkey = (str(B))[0]
+   distance = d_sheet["C"+chr(i)+chr(j)].value
+   # print(Akey)
+   # print(Bkey)
+   # print(distance)
+   if(Akey is not None):
+    nodes2[Bkey][Akey] = distance # B->A
 
 print(nodes2)
 
@@ -157,7 +161,7 @@ for name in nodes.keys():
     child = sorted(nodes[name].keys())
     nodes[name]['child'] = child
 
-
+print("\n************************\nnodes + sorted child list = ")
 pprint(nodes)
 
 # ================================================#
@@ -168,5 +172,5 @@ Search
 
 """
 
-start = 'Timisoara'
+start = 'T'
 
