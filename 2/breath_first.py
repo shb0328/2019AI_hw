@@ -37,7 +37,7 @@ for i in range(48, 51):
 		if (i != 48 or j != 48):
 			city = s_sheet["A"+chr(i)+chr(j)].value
 			if(city is not None):
-				cityNames.append((str(city))[0])
+				cityNames.append((str(city))[0]) # 도시 이름의 첫 대문자만 사용
 
 
 # 도시부터 B까지 직선거리 list로 추출
@@ -75,7 +75,7 @@ for i in range(48, 51):
 		if (i != 48 or j != 48):
 			city = d_sheet["A"+chr(i)+chr(j)].value
 			if(city is not None):
-				cityNames.append((str(city))[0])
+				cityNames.append((str(city))[0]) # 도시 이름의 첫 대문자만 사용
 
 # {key(출발 도시) : value{'도착도시':거리,...},...,{} } A->B
 nodes1 = {}
@@ -87,8 +87,8 @@ for i in range(48, 51):
   if (i != 48 or j != 48):
    A = d_sheet["A"+chr(i)+chr(j)].value
    B = d_sheet["B"+chr(i)+chr(j)].value
-   Akey = (str(A))[0]
-   Bkey = (str(B))[0]
+   Akey = (str(A))[0] # 도시 이름의 첫 대문자만 사용
+   Bkey = (str(B))[0] # 도시 이름의 첫 대문자만 사용
    distance = d_sheet["C"+chr(i)+chr(j)].value
    if(A is not None):
     nodes1[Akey][Bkey] = distance # A->B
@@ -103,7 +103,7 @@ for i in range(48, 51):
 		if (i != 48 or j != 48):
 			city = d_sheet["B"+chr(i)+chr(j)].value
 			if(city is not None):
-				cityNames.append((str(city))[0])
+				cityNames.append((str(city))[0]) # 도시 이름의 첫 대문자만 사용
 
 # {key(출발 도시) : value{'도착도시':거리,...},...,{} } B->A
 nodes2 = {}
@@ -115,8 +115,8 @@ for i in range(48, 51):
   if (i != 48 or j != 48):
    A = d_sheet["A"+chr(i)+chr(j)].value
    B = d_sheet["B"+chr(i)+chr(j)].value
-   Akey = (str(A))[0]
-   Bkey = (str(B))[0]
+   Akey = (str(A))[0] # 도시 이름의 첫 대문자만 사용
+   Bkey = (str(B))[0] # 도시 이름의 첫 대문자만 사용
    distance = d_sheet["C"+chr(i)+chr(j)].value
    if(Akey is not None):
     nodes2[Bkey][Akey] = distance # B->A
