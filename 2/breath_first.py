@@ -183,8 +183,10 @@ class Queue:
         self.myList.clear()
 
     def show(self):
+        print("[",end="")
         for i in range(0,len(self.myList)):
-            print(self.myList[i])
+            print(self.myList[i],end = " ")
+        print("]")
 
 # Node Class는 도시이름(data), 출발점부터 경로(path), 출발점부터 비용(cost)를 갖고 있다.
 class Node:
@@ -217,25 +219,29 @@ startNode = Node(start)
 open.enqueue(startNode)
 
 while open.isEmpty() == False:
-    node = open.dequeue()
+  print("open",end="")
+  open.show();
+  node = open.dequeue()
     
     # Check : Goal 인지 검사
-    if node.equal(end):
-        print("\n***** Result *****\n* Path : ",end = " ")
-        node.showPath()
-        print("* cost : ",node.cost)
-        print("* number of generated nodes : ",end = " ")
-        print(close.size())
-        open.clear()
-    else:
-        close.enqueue(node)
-        children = nodes[node.data] #dict
-        for i in range(0,len(children['child'])):
-            key = children['child'][i]
+  if node.equal(end):
+    print("\n***** Result *****\n* Path : ",end = " ")
+    node.showPath()
+    print("* cost : ",node.cost)
+    print("* number of generated nodes : ",end = " ")
+    print(close.size())
+    open.clear()
+  else:
+    print("close",end="")
+    close.show();
+    close.enqueue(node)
+    children = nodes[node.data] #dict
+    for i in range(0,len(children['child'])):
+        key = children['child'][i]
 
-            # Check : 왔던 경로에 key가 있었는지 검사
-            if key not in node.path:
-              cost = node.cost
-              cost += children[key]
-              newNode = Node(key,node.path,cost)
-              open.enqueue(newNode)
+        # Check : 왔던 경로에 key가 있었는지 검사
+        if key not in node.path:
+          cost = node.cost
+          cost += children[key]
+          newNode = Node(key,node.path,cost)
+          open.enqueue(newNode)
