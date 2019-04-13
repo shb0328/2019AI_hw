@@ -1,5 +1,5 @@
 import openpyxl
-from pprint import pprint
+from pprint import pprint #pprint(dict) 시, key로 정렬해서 예쁘게 출력해준다. 단, dict는 원래 순서가 없음.
 
 # 엑셀파일 열기
 filename1 = "Assignment 19-2 (straight-line).xlsx"
@@ -39,7 +39,7 @@ for i in range(48, 51):
 			if(city is not None):
 				cityNames.append((str(city))[0])
 
-print(cityNames)
+# print(cityNames)
 
 # 도시부터 B까지 직선거리 list로 추출
 straights = []
@@ -51,7 +51,7 @@ for i in range(48, 51):
 			if(straight is not None):
 				straights.append(straight)
 
-print(straights)
+# print(straights)
 
 # {도시 : 직선거리, ... ,{}} dict로 만들기
 citys = {}
@@ -59,7 +59,7 @@ citys = {}
 for i in range(0, len(cityNames)):
 	citys[cityNames[i]] = int(straights[i])
 
-print("\n************************\ncitys = ")
+print("\n************************\n\ncitys with straight-line to B = \n")
 pprint(citys)
 
 # ================================================#
@@ -79,13 +79,13 @@ for i in range(48, 51):
 			city = d_sheet["A"+chr(i)+chr(j)].value
 			if(city is not None):
 				cityNames.append((str(city))[0])
-print(cityNames)
+# print(cityNames)
 
 # {key(출발 도시) : value{'도착도시':거리,...},...,{} } A->B
 nodes1 = {}
 for name in cityNames:
 	nodes1[name] = {}
-print(nodes1)
+# print(nodes1)
 
 for i in range(48, 51):
  for j in range(48, 58):
@@ -101,7 +101,7 @@ for i in range(48, 51):
    if(A is not None):
     nodes1[Akey][Bkey] = distance # A->B
 
-print(nodes1)
+# print(nodes1)
 
 
 # B 열의 도시를 출발 key로.
@@ -113,13 +113,13 @@ for i in range(48, 51):
 			city = d_sheet["B"+chr(i)+chr(j)].value
 			if(city is not None):
 				cityNames.append((str(city))[0])
-print(cityNames)
+# print(cityNames)
 
 # {key(출발 도시) : value{'도착도시':거리,...},...,{} } B->A
 nodes2 = {}
 for name in cityNames:
 	nodes2[name] = {}
-print(nodes2)
+# print(nodes2)
 
 for i in range(48, 51):
  for j in range(48, 58):
@@ -135,12 +135,12 @@ for i in range(48, 51):
    if(Akey is not None):
     nodes2[Bkey][Akey] = distance # B->A
 
-print(nodes2)
+# print(nodes2)
 
 # d_sheet A->B 랑 B->A 합치기(최종)
 nodes = {}
 for name1 in nodes1.keys():
-    print(nodes1[name1])
+    # print(nodes1[name1])
     for name2 in nodes2.keys():
         if name1 == name2:
             nodes1[name1].update(nodes2[name2])
@@ -148,8 +148,8 @@ for name1 in nodes1.keys():
             nodes[name2] = nodes2[name2]
 
 nodes.update(nodes1)
-print("\n************************\nnodes = ")
-pprint(nodes)
+# print("\n************************\nnodes = ")
+# pprint(nodes)
 
 """
 알파벳 순서로 정렬된 자식 list를
@@ -161,7 +161,7 @@ for name in nodes.keys():
     child = sorted(nodes[name].keys())
     nodes[name]['child'] = child
 
-print("\n************************\nnodes + sorted child list = ")
+print("\n************************\n\nnodes with sorted child list = \n")
 pprint(nodes)
 
 # ================================================#
@@ -171,7 +171,9 @@ pprint(nodes)
 BFS
 
 """
-print("\n\n BFS \n\n")
+
+print("\n\n***** BFS *****\n\n")
+
 
 class Queue:
 
@@ -185,7 +187,7 @@ class Queue:
         if self.isEmpty():
             return None
         return self.myList.pop(0)
-   
+
     def isEmpty(self):
         if not self.myList:
             return True
@@ -199,19 +201,19 @@ class Queue:
 
     def show(self):
         for i in range(0,len(self.myList)):
-            print("[",i,"]",self.myList[i])
+            print(self.myList[i])
 
-    
+# Node Class는 도시이름(data), 출발점부터 경로(path), 출발점부터 비용(cost)를 갖고 있다.
 class Node:
 
     def __init__(self, data, path=[], cost=0):
         self.data = data
         self.path = path.copy()
-        print("node init ... path:",path)
-        print("node init ... self.path:",self.path)
+        # print("node init ... path:",path)
+        # print("node init ... self.path:",self.path)
         self.path.append(data)
-        print("node init ... after append, path:",path)
-        print("node init ... after append, self.path:",self.path)
+        # print("node init ... after append, path:",path)
+        # print("node init ... after append, self.path:",self.path)
         self.cost = cost
 
     def showPath(self):
@@ -228,44 +230,43 @@ class Node:
 
 
 
-# right most
+# BFS 는 right most!
+
 start = 'T'
 end = 'B'
-
-startNode = Node(start)
 
 open = Queue()
 close = Queue()
 
+startNode = Node(start)
 open.enqueue(startNode)
-open.show()
+# open.show()
 
-print("\n\nWhile start\n\n")
+print("\n\n***** While start *****\n\n")
 while open.isEmpty() == False:
     node = open.dequeue()
-    print("while start, node : ",node)
-    node.showPath()
+    # print("while start, node : ",node)
+    # node.showPath()
     
+    # Check : Goal 인지 검사
     if node.equal(end):
-        print("end!\nPath : ",end = " ")
+        print("\n***** result *****\n*Path : ",end = " ")
         node.showPath()
-        print("cost : ",node.cost)
-        print("number of generated nodes : ",end = " ")
+        print("*cost : ",node.cost)
+        print("*number of generated nodes : ",end = " ")
         print(close.size())
         open.clear()
     else:
         close.enqueue(node)
         children = nodes[node.data] #dict
-        print("children : ",children)
+        # print("children : ",children)
         for i in range(0,len(children['child'])):
             key = children['child'][i]
-            print("key : ",key)
-            #왔던 경로에 key가 있었는지 검사!!
+            # print("key : ",key)
+            # Check : 왔던 경로에 key가 있었는지 검사
             if key not in node.path:
               cost = node.cost
               cost += children[key]
-              print("before newNode, node.path : ", node.path)
+              # print("before newNode, node.path : ", node.path)
               newNode = Node(key,node.path,cost)
               open.enqueue(newNode)
-
-        # open.enqueue()
