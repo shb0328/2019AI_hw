@@ -161,31 +161,33 @@ print("\n\n***** BFS *****\n\n")
 class Queue:
 
     def __init__(self):
-        self.myList = list()
+        self.nodeList = list()
+        self.dataList = list()
 
     def enqueue(self, node):
-        self.myList.append(node)
+        self.nodeList.append(node)
+        self.dataList.append(node.data)
 
     def dequeue(self):
         if self.isEmpty():
             return None
-        return self.myList.pop(0)
+        return self.nodeList.pop(0)
 
     def isEmpty(self):
-        if not self.myList:
+        if not self.nodeList:
             return True
         return False
 
     def size(self):
-        return len(self.myList)
+        return len(self.nodeList)
 
     def clear(self):
-        self.myList.clear()
+        self.nodeList.clear()
 
     def show(self):
         print("[",end="")
-        for i in range(0,len(self.myList)):
-            print(self.myList[i],end = " ")
+        for i in range(0,len(self.nodeList)):
+            print(self.nodeList[i],end = " ")
         print("]")
 
 # Node Class는 도시이름(data), 출발점부터 경로(path), 출발점부터 비용(cost)를 갖고 있다.
@@ -239,8 +241,8 @@ while open.isEmpty() == False:
     for i in range(0,len(children['child'])):
         key = children['child'][i]
 
-        # Check : 왔던 경로에 key가 있었는지 검사
-        if key not in node.path:
+        # Check loop : 왔던 경로에 key가 있었는지 검사 and open/close list 안에 key가 이미 존재하는지 검사
+        if (key not in node.path) and (key not in open.dataList) and (key not in close.dataList):
           cost = node.cost
           cost += children[key]
           newNode = Node(key,node.path,cost)
