@@ -223,26 +223,28 @@ open.enqueue(startNode)
 while open.isEmpty() is False:
   print("open",end="")
   open.show();
+  print("close",end="")
+  close.show();
   node = open.dequeue()
     
     # Check : Goal 인지 검사
   if node.equal(end):
-    print("\n***** Result *****\n* Path : ",end = " ")
+    print("\n***** Result *****\n\n* Path : ",end = " ")
     node.showPath()
     print("* cost : ",node.cost)
     print("* number of generated nodes : ",end = " ")
     print(close.size())
-    open.clear()
+    close.enqueue(node)
+    print("\n******************\n\n")
+    # open.clear()
   else:
-    print("close",end="")
-    close.show();
     close.enqueue(node)
     children = nodes[node.data] #dict
     for i in range(0,len(children['child'])):
         key = children['child'][i]
 
         # Check loop : 왔던 경로에 key가 있었는지 검사 and open/close list 안에 key가 이미 존재하는지 검사
-        if (key not in node.path) and (key not in open.dataList) and (key not in close.dataList):
+        if (key not in node.path) and (key not in close.dataList):
           cost = node.cost
           cost += children[key]
           newNode = Node(key,node.path,cost)
