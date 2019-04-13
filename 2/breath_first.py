@@ -221,31 +221,31 @@ startNode = Node(start)
 open.enqueue(startNode)
 
 while open.isEmpty() is False:
-  print("open",end="")
-  open.show();
-  print("close",end="")
-  close.show();
+  print("open", end="")
+  open.show()
+  print("close", end="")
+  close.show()
   node = open.dequeue()
     
     # Check : Goal 인지 검사
   if node.equal(end):
-    print("\n***** Result *****\n\n* Path : ",end = " ")
+    print("\n***** Result *****\n\n* Path : ", end = " ")
     node.showPath()
     print("* cost : ",node.cost)
-    print("* number of generated nodes : ",end = " ")
+    print("* number of generated nodes : ", end = " ")
     print(close.size())
     close.enqueue(node)
     print("\n******************\n\n")
     # open.clear()
   else:
     close.enqueue(node)
-    children = nodes[node.data] #dict
-    for i in range(0,len(children['child'])):
+    children = nodes[node.data] # dict
+    for i in range(0, len(children['child'])):
         key = children['child'][i]
 
         # Check : 왔던 경로에 key가 있었는지 검사
         if (key not in node.path):
           cost = node.cost
           cost += children[key]
-          newNode = Node(key,node.path,cost)
+          newNode = Node(key, node.path, cost)
           open.enqueue(newNode)
