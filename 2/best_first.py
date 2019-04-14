@@ -168,10 +168,15 @@ class PriorityQ:
     gn = node.cost
     hn = citys[node.data]
     fn = gn + hn
-    print("enqueue : ",fn,node)
+    print("enqueue : ", fn, node)
     if fn not in self.fnDict:
-      self.fnDict[fn] = [node]
+      print(" if fn not in self.fnDict:")
+      self.fnDict[fn] = list()
+      print("   fnDict[fn]",self.fnDict[fn])
+      self.fnDict[fn].append(node)
+      print("   after append : ",self.fnDict[fn])
     else:
+      print(" else:")
       self.fnDict[fn].append(node)
   # res = min(fnDict.keys(),key = fnDict.get)
     self.size += 1
@@ -180,7 +185,8 @@ class PriorityQ:
     if self.isEmpty():
         return None
     print("dequeue : ",self.fnDict.keys())
-    print("22 : ",self.fnDict[min(self.fnDict.keys())])
+    print("min(self.fnDict.keys()) : ",min(self.fnDict.keys()))
+    print("self.fnDict[min(self.fnDict.keys())] : ",self.fnDict[min(self.fnDict.keys())])
     node = self.fnDict[min(self.fnDict.keys())].pop(0) # fnDict 값이 같다면, FIFO
     self.size -= 1
     return node
