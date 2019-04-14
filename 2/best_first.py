@@ -185,7 +185,11 @@ class PriorityQ:
     if self.isEmpty():
         return None
     print("dequeue : ",self.fnDict.keys())
-    node = self.fnDict[min(self.fnDict.keys())].pop(0) # fnDict 값이 같다면, FIFO
+    key = min(self.fnDict.keys())
+    node = self.fnDict[key].pop(0) # fnDict 값이 같다면, FIFO
+    # key 의 value list가 비었으면 key 삭제
+    if not self.fnDict[key]:
+      del self.fnDict[key]
     self.size -= 1
     return node
 
@@ -264,7 +268,7 @@ while open.isEmpty() is False:
     node.showPath()
     print("* cost : ", node.cost)
     print("* number of generated nodes : ", end = " ")
-    print(close.size())
+    print(len(close))
     close.append(node)
     print("\n******************\n\n")
   else:
