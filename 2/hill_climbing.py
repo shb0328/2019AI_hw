@@ -208,6 +208,8 @@ while open:
     print("\n***** Result *****\n\n* Path : ",end = " ")
     node.showPath()
     print("* cost : ",node.cost)
+    print("* number of generated nodes in open[] : ", end = " ")
+    print(len(open))
     print("* number of generated nodes : ",end = " ")
     print(len(close))
     print("\n******************\n\n")

@@ -232,6 +232,8 @@ while open.isEmpty() is False:
     print("\n***** Result *****\n\n* Path : ", end = " ")
     node.showPath()
     print("* cost : ",node.cost)
+    print("* number of generated nodes in open[] : ", end = " ")
+    print(open.size())
     print("* number of generated nodes : ", end = " ")
     print(close.size())
     close.enqueue(node)
