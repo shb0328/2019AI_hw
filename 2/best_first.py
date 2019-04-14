@@ -160,44 +160,46 @@ print("\n\n***** Best First Search *****\n\n")
 class PriorityQ:
 
   def __init__(self):
-    self.sortedNodeList = list()
+    self.nodeList = list()
+    self.fn = dict()
 
   def enqueue(self, node):
-    self.sortedNodeList.append(node)
-    self.calFn()
+    self.nodeList.append(node)
+    self.calFn(node)
 
   def dequeue(self):
     if self.isEmpty():
         return None
-    return self.sortedNodeList.pop(0)
+    key = self.fn[min(self.fn.keys())].pop(0) # fn 값이 같다면, FIFO
+    res = self.nodeList # 어.. 잠시만
+    return res
 
   def isEmpty(self):
-    if not self.sortedNodeList:
+    if not self.nodeList:
         return True
     return False
 
   def size(self):
-    return len(self.sortedNodeList)
+    return len(self.nodeList)
 
   def clear(self):
-    self.sortedNodeList.clear()
+    self.nodeList.clear()
 
   def show(self):
     print("[", end="")
-    for i in range(0, len(self.sortedNodeList)):
-        print(self.sortedNodeList[i], end = " ")
+    for i in range(0, len(self.nodeList)):
+        print(self.nodeList[i], end = " ")
     print("]")
 
-  def calFn(self):
-    self.fn = dict()
-    for i in range(0,len(self.sortedNodeList)):
-      data = self.sortedNodeList[i].data
-      gn = self.sortedNodeList[i].cost
-      hn = citys[data]
-      self.fn[data] = gn + hn
-    # res = min(fn.keys(),key = fn.get)
-    print(self.fn)
-    sorted(self.fn,key=self.fn.values())
+  # f(n) 계산해서 dict 타입 fn 에 { key/g(n)+h(n) : value/[도시이름 , ...](list)} 로 관리
+  def calFn(self, node):
+    gn = node.cost
+    hn = citys[node.data]
+    if gn+hn not in self.fn:
+      self.fn[gn+hn] = [node.data]
+    else:
+      self.fn[gn+hn].append(node.data)
+  # res = min(fn.keys(),key = fn.get)
     print(self.fn)
 
 
