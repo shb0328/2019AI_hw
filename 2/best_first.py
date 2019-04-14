@@ -160,48 +160,57 @@ print("\n\n***** Best First Search *****\n\n")
 class PriorityQ:
 
   def __init__(self):
-    self.nodeList = list()
-    self.fn = dict()
+    self.fnDict = dict()
+    self.size = 0
 
+  # f(n) 계산해서 dict 타입 fnDict 에 { key/f(n) : value/[도시이름 , ...] } 로 관리
   def enqueue(self, node):
-    self.nodeList.append(node)
-    self.calFn(node)
+    gn = node.cost
+    hn = citys[node.data]
+    fn = gn + hn
+    print("enqueue : ",fn,node)
+    if fn not in self.fnDict:
+      self.fnDict[fn] = [node]
+    else:
+      self.fnDict[fn].append(node)
+  # res = min(fnDict.keys(),key = fnDict.get)
+    self.size += 1
 
   def dequeue(self):
     if self.isEmpty():
         return None
-    key = self.fn[min(self.fn.keys())].pop(0) # fn 값이 같다면, FIFO
-    res = self.nodeList # 어.. 잠시만
-    return res
+    print("dequeue : ",self.fnDict.keys())
+    print("22 : ",self.fnDict[min(self.fnDict.keys())])
+    node = self.fnDict[min(self.fnDict.keys())].pop(0) # fnDict 값이 같다면, FIFO
+    self.size -= 1
+    return node
 
   def isEmpty(self):
-    if not self.nodeList:
+    if not self.fnDict:
         return True
     return False
 
   def size(self):
-    return len(self.nodeList)
+    return self.size
 
   def clear(self):
-    self.nodeList.clear()
+    self.fnDict.clear()
 
   def show(self):
+    # print("[", end="")
+    # for i in range(0, len(self.nodeList)):
+    #     print(self.nodeList[i], end = " ")
+    # print("]")
     print("[", end="")
-    for i in range(0, len(self.nodeList)):
-        print(self.nodeList[i], end = " ")
+    sortedList = sorted(self.fnDict.keys())
+    for i in range(0,len(sortedList)):
+      tmp = self.fnDict[sortedList[i]]
+      for j in range(0, len(tmp)):
+        print(tmp.pop(0), end="")
     print("]")
 
-  # f(n) 계산해서 dict 타입 fn 에 { key/g(n)+h(n) : value/[도시이름 , ...](list)} 로 관리
-  def calFn(self, node):
-    gn = node.cost
-    hn = citys[node.data]
-    if gn+hn not in self.fn:
-      self.fn[gn+hn] = [node.data]
-    else:
-      self.fn[gn+hn].append(node.data)
-  # res = min(fn.keys(),key = fn.get)
-    print(self.fn)
 
+    
 
 # Node Class는 도시이름(data), 출발점부터 경로(path), 출발점부터 비용(cost)를 갖고 있다.
 class Node:
@@ -221,6 +230,13 @@ class Node:
     def __str__(self):
         return self.data
 
+# show()
+def show(list):
+  print("[",end="")
+  for i in range(0,len(list)):
+      print(list[i],end = " ")
+  print("]")
+
 
 start = 'T'
 end = 'B'
@@ -229,22 +245,37 @@ open = PriorityQ()
 close = list()
 
 startNode = Node(start)
+print("startNode : ",startNode)
 open.enqueue(startNode)
-
 while open.isEmpty() is False:
   print("open", end="")
   open.show()
   print("close",end="")
-  close.show()
+  show(close)
 
   node = open.dequeue()
   # Check : Goal 검사
   if node.equal(end):
     print("\n***** Result *****\n\n* Path : ", end = " ")
     node.showPath()
-    print("* cost : ",node.cost)
+    print("* cost : ", node.cost)
     print("* number of generated nodes : ", end = " ")
     print(close.size())
-    close.enqueue(node)
+    close.append(node)
     print("\n******************\n\n")
+  else:
+    close.append(node)
+    
+    children = nodes[node.data]
+    for i in range(0, len(children['child'])):
+      key = children['child'][i]
+
+      # Check : 왔던 길인지 검사
+      if key not in node.path:
+        cost = node.cost
+        cost += children[key]
+        newNode = Node(key, node.path, cost)
+        open.enqueue(newNode)
+
+
 
