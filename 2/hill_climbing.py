@@ -210,7 +210,7 @@ while open:
     print("* cost : ",node.cost)
     print("* number of generated nodes in open[] : ", end = " ")
     print(len(open))
-    print("* number of generated nodes : ",end = " ")
+    print("* number of generated nodes in close[] : ",end = " ")
     print(len(close))
     print("\n******************\n\n")
   else:

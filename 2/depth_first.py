@@ -232,7 +232,7 @@ while open.isEmpty() is False:
       print("* cost : ",node.cost)
       print("* number of generated nodes in open[] : ", end = " ")
       print(open.size())
-      print("* number of generated nodes : ",end = " ")
+      print("* number of generated nodes in close[] : ",end = " ")
       print(close.size())
       close.push(node)
       print("\n******************\n\n")

@@ -173,7 +173,6 @@ class PriorityQ:
       self.fnDict[fn].append(node)
     else:
       self.fnDict[fn].append(node)
-  # res = min(fnDict.keys(),key = fnDict.get)
     self.size += 1
 
   def dequeue(self):
@@ -199,10 +198,6 @@ class PriorityQ:
     self.fnDict.clear()
 
   def show(self):
-    # print("[", end="")
-    # for i in range(0, len(self.nodeList)):
-    #     print(self.nodeList[i], end = " ")
-    # print("]")
     print("[", end="")
     sortedList = sorted(self.fnDict.keys())
     for i in range(0,len(sortedList)):
@@ -263,7 +258,7 @@ while open.isEmpty() is False:
     print("* cost : ", node.cost)
     print("* number of generated nodes in open[] : ", end = " ")
     print(open.size)
-    print("* number of generated nodes : ", end = " ")
+    print("* number of generated nodes in close[] : ", end = " ")
     print(len(close))
     close.append(node)
     print("\n******************\n\n")
