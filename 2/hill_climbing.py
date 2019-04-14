@@ -136,7 +136,7 @@ nodes.update(nodes1)
 
 """
 알파벳 순서로 정렬된 자식 list를
-{key(출발 도시) : value{'도착도시':거리,...,'child':[]},...,{} }
+{key(출발 도시) : value{'도착 도시':거리,...,'child':[]},...,{} }
 <- 'child':[]로 추가
 """
 
@@ -153,4 +153,83 @@ pprint(nodes)
 
 Hill-Climbing
 
+f(n) = g*(n) + h(n)
+g*(n) : node.cost 현재노드(n)까지 오는데 든 비용의 총합
+h(n) : citys.values() 현재노드(n)부터 목적지까지 직선거리 (목적지까지 예상비용의 추정치)
+
 """
+
+print("\n\n***** Hill-Climbing *****\n\n")
+
+def show(list):
+  print("[",end="")
+  for i in range(0,len(list)):
+      print(list[i],end = " ")
+  print("]")
+
+# Node Class는 도시이름(data), 출발점부터 경로(path), 출발점부터 비용(cost)를 갖고 있다.
+class Node:
+
+  def __init__(self, data, path=[], cost=0):
+    self.data = data
+    self.path = path.copy()
+    self.path.append(data)
+    self.cost = cost
+
+  def showPath(self):
+    print(self.path)
+
+  def equal(self, data):
+    return self.data == data
+
+  def __str__(self):
+    return self.data
+
+
+
+start = 'T'
+end = 'B'
+
+open = list()
+close = list()
+
+startNode = Node(start)
+open.append(startNode)
+
+while open:
+  print("open",end="")
+  show(open)
+  print("close",end="")
+  show(close)
+
+  node = open.pop(0)
+  # Check : Goal 검사
+  if node.equal(end):
+    print("\n***** Result *****\n\n* Path : ",end = " ")
+    node.showPath()
+    print("* cost : ",node.cost)
+    print("* number of generated nodes : ",end = " ")
+    print(len(close))
+    print("\n******************\n\n")
+  else:
+    close.append(node)
+    children = nodes[node.data] # dict
+    childList = children['child']
+    
+    # f(n) 계산
+    fn = dict()
+
+    for i in range(0,len(childList)):
+      child = childList[i]
+      # Check : 왔던 경로에 child가 있었는지 검사
+      if child not in node.path:
+        gn = node.cost + children[child]
+        hn = citys[child]
+        fn[child] = gn + hn
+
+    res = min(fn.keys(),key = fn.get)
+    newNode = Node(res,node.path,fn[res]-citys[res])
+    open.append(newNode)
+
+
+
