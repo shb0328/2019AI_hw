@@ -168,23 +168,17 @@ class PriorityQ:
     gn = node.cost
     hn = citys[node.data]
     fn = gn + hn
-    print("enqueue : ", fn, node)
     if fn not in self.fnDict:
-      print(" if fn not in self.fnDict:")
       self.fnDict[fn] = list()
       self.fnDict[fn].append(node)
     else:
-      print(" else:")
       self.fnDict[fn].append(node)
   # res = min(fnDict.keys(),key = fnDict.get)
     self.size += 1
-    pprint(self.fnDict) # 아오 잘 들어갔는데 왜 안되냐고
 
   def dequeue(self):
-    pprint(self.fnDict)
     if self.isEmpty():
         return None
-    print("dequeue : ",self.fnDict.keys())
     key = min(self.fnDict.keys())
     node = self.fnDict[key].pop(0) # fnDict 값이 같다면, FIFO
     # key 의 value list가 비었으면 key 삭제
