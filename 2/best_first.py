@@ -168,11 +168,13 @@ class PriorityQ:
     gn = node.cost
     hn = citys[node.data]
     fn = gn + hn
+    print("혹시나 해서 찍어보는 fn type: ",type(fn))
     print("enqueue : ", fn, node)
     if fn not in self.fnDict:
       print(" if fn not in self.fnDict:")
+      print("혹시나 해서 찍어보는 fn type: ",type(fn))
       self.fnDict[fn] = list()
-      print("   fnDict[fn]",self.fnDict[fn])
+      print("   fnDict[fn]",self.fnDict[fn],"key fn 에 value list 생성!")
       self.fnDict[fn].append(node)
       print("   after append : ",self.fnDict[fn])
     else:
@@ -180,10 +182,13 @@ class PriorityQ:
       self.fnDict[fn].append(node)
   # res = min(fnDict.keys(),key = fnDict.get)
     self.size += 1
+    pprint(self.fnDict) # 아오 잘 들어갔는데 왜 안되냐고
 
   def dequeue(self):
+    pprint(self.fnDict)
     if self.isEmpty():
         return None
+    print("혹시나 해서 찍어보는 min(self.fnDict.keys()) type: ",type(min(self.fnDict.keys())))
     print("dequeue : ",self.fnDict.keys())
     print("min(self.fnDict.keys()) : ",min(self.fnDict.keys()))
     print("self.fnDict[min(self.fnDict.keys())] : ",self.fnDict[min(self.fnDict.keys())])
@@ -212,7 +217,7 @@ class PriorityQ:
     for i in range(0,len(sortedList)):
       tmp = self.fnDict[sortedList[i]]
       for j in range(0, len(tmp)):
-        print(tmp.pop(0), end="")
+        print(tmp[j], end=" ")
     print("]")
 
 
